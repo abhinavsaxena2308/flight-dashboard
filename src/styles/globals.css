@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .dashboard-container {
+    @apply min-h-screen bg-dashboard-bg;
+  }
+  
+  .dashboard-card {
+    @apply bg-dashboard-card rounded-lg shadow-sm border border-dashboard-border p-4;
+  }
+  
+  .dashboard-header {
+    @apply bg-white shadow-sm border-b border-dashboard-border p-4;
+  }
+  
+  .dashboard-map-container {
+    @apply rounded-lg overflow-hidden border border-dashboard-border bg-white;
+  }
+  
+  .dashboard-stats-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+  }
+  
+  .stat-card {
+    @apply dashboard-card flex flex-col items-center justify-center p-6 text-center;
+  }
+}
+
+.leaflet-tooltip.state-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 100px;
+  text-align: center;
+}
