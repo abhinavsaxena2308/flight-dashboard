@@ -14,7 +14,12 @@ const iconUrl =
 const shadowUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png';
 
-delete L.Icon.Default.prototype._getIconUrl;
+// Fix for Leaflet marker icons
+try {
+  delete (L as any).Icon.Default.prototype._getIconUrl;
+} catch (e) {
+  // Ignore if property doesn't exist
+}
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl,
@@ -22,11 +27,22 @@ L.Icon.Default.mergeOptions({
   shadowUrl,
 });
 
+interface StateData {
+  state: string;
+  totalFlights: number;
+  incomingFlights: number;
+  outgoingFlights: number;
+  routes: number;
+  airlines: string[];
+}
+
 interface TooltipState {
   visible: boolean;
-  content: string;
+  content: string | StateData;
   x: number;
   y: number;
+  loading?: boolean;
+  error?: string;
 }
 
 interface MapWithStatesProps {
@@ -139,7 +155,7 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip }) => {
 
   const onEachFeature = (feature: any, layer: L.Layer) => {
     layer.on({
-      mouseover: (e: any) => {
+      mouseover: async (e: any) => {
         e.target.setStyle({
           weight: 2,
           color: '#666',
@@ -148,13 +164,59 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip }) => {
 
         const stateName =
           feature.properties?.st_nm || feature.properties?.name || 'Unknown';
-
+        
+        // Set loading state
         setTooltip({
           visible: true,
-          content: stateName,
+          content: '',
           x: e.originalEvent.pageX,
           y: e.originalEvent.pageY,
+          loading: true,
         });
+        
+        try {
+          // Convert state name to kebab-case to match API expectations
+          const formattedStateName = stateName
+            .toLowerCase()
+            .replace(/&/g, 'and')
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]/g, '');
+            
+          // Fetch state data from backend API (proxied through Next.js)
+          const response = await fetch(`/api/state/${formattedStateName}`);
+          
+          if (response.ok) {
+            const stateData: StateData = await response.json();
+            
+            setTooltip({
+              visible: true,
+              content: stateData,
+              x: e.originalEvent.pageX,
+              y: e.originalEvent.pageY,
+              loading: false,
+            });
+          } else {
+            // If API call fails, show just the state name
+            setTooltip({
+              visible: true,
+              content: stateName,
+              x: e.originalEvent.pageX,
+              y: e.originalEvent.pageY,
+              loading: false,
+              error: `Failed to load data (${response.status})`
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching state data:', error);
+          setTooltip({
+            visible: true,
+            content: stateName,
+            x: e.originalEvent.pageX,
+            y: e.originalEvent.pageY,
+            loading: false,
+            error: 'Network error'
+          });
+        }
       },
 
       mousemove: (e: any) => {

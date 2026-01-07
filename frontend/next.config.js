@@ -9,6 +9,22 @@ const nextConfig = {
   },
   // Use Babel instead of SWC
   swcMinify: false,
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:8080/api/:path*', // Proxy API requests to backend
+      },
+    ];
+  },
+  /* For API routes, we need to handle proxying differently */
+  env: {}, // This doesn't affect proxying
+  // Enable trailing slash handling if needed
+  trailingSlash: undefined,
+  webpack(config) {
+    // Further configure Webpack if needed
+    return config;
+  },
 }
 
 module.exports = nextConfig

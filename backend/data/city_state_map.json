@@ -1,0 +1,104 @@
+{
+  "andhra pradesh": [
+    "amaravati", "visakhapatnam", "vijayawada", "guntur", "nellore", "kurnool", "rajahmundry", "tirupati", "kakinada", "kadapa", "anantapur", "eluru", "ongole", "kadiri", "hindupur", "proddatur", "bhimavaram", "gudivada", "rajampet", "tadepalligudem", "srikakulam", "anakapalle", "nandyal", "suriapet", "adoni", "chittoor", "machilipatnam", "bapatla", "nagari", "narsapur", "tanuku", "yemmiganur", "sullurpeta", "palacole", "parvathipuram", "ramachandrapuram", "samalkot", "sattenapalle", "tadpatri", "tiruvuru", "venkatagiri"
+  ],
+  "arunachal pradesh": [
+    "itanagar", "naharlagun", "pasighat", "tawang", "bomdila", "tezu", "khonsa", "anini", "dambuk", "miao", "roing", "silapathar", "sagalee", "parang", "seppa", "bhalukpong", "changlang", "hawai", "jairampur", "koloriang", "lathao", "mohendraganj", "namsai", "pangin", "phassang", "ramsoh", "saiha", "sakoli", "sakrabaari", "tikabali", "zangla", "zirang", "ziro"
+  ],
+  "assam": [
+    "dispur", "guwahati", "dibrugarh", "silchar", "tezpur", "jorhat", "nagaon", "tinsukia", "dhubri", "diphu", "north lakhimpur", "barpeta", "lakhimpur", "nalgonda", "sibsagar", "goalpara", "hailakandi", "dhemaji", "teok", "lumding", "mangaldoi", "marigaon", "narkatiaganj", "sadiya", "udalguri", "badarpur", "bilasipara", "kharupatia", "lanka", "morigaon", "razampur", "sorbhog", "tangla"
+  ],
+  "bihar": [
+    "patna", "gaya", "bhagalpur", "muzaffarpur", "darbhanga", "begusarai", "chapra", "katihar", "munger", "purnia", "saharsa", "hajipur", "sasaram", "dehri", "aurangabad", "nawada", "jamalpur", "sitamarhi", "danapur", "madhubani", "siwan", "chhapra", "araria", "kishanganj", "madhepura", "arrah", "mokama", "sultanganj"
+  ],
+  "chhattisgarh": [
+    "raipur", "bhilai", "korba", "bilaspur", "raigarh", "jagdalpur", "rajnandgaon", "ambikapur", "dhamtari", "chirmiri", "bhatapara", "sakti", "jashpur", "mahasamund", "dantewada", "bijapur", "narayanpur", "kanker", "kondagaon", "sukma", "balod", "baloda bazar", "bemetara", "gariaband", "gaurela pendra marwahi", "kabirdham"
+  ],
+  "goa": [
+    "panaji", "margao", "mapusa", "mormugao", "bicholim", "ponda", "sanguem", "canacona", "pale", "quepem", "salcette", "cortalim", "cuncolim", "cunha", "goa velha", "jua", "kharebudr", "majorda", "mardol", "maria"
+  ],
+  "gujarat": [
+    "gandhinagar", "ahmedabad", "surat", "vadodara", "rajkot", "bhavnagar", "jamnagar", "nadiad", "veraval", "gandhidham", "bharuch", "junagadh", "bhuj", "navsari", "botad", "dahod", "devbhoomi dwarka", "gir somnath", "kheda", "mehsana", "morbi", "narmada", "panchmahal", "patan", "surendranagar", "tapi", "vadodara", "valsad"
+  ],
+  "haryana": [
+    "chandigarh", "faridabad", "gurgaon", "hisar", "rohtak", "panipat", "karnal", "sonipat", "yamunanagar", "bhiwani", "sirsa", "bahadurgarh", "jind", "thanesar", "kaithal", "palwal", "bawal", "charkhi dadri", "fatehabad", "gohana", "jagadhri", "kalka", "meham", "mewat", "narwana", "narnaul", "narnaund", "panchkula", "pundri", "radaur", "rajgarh", "safidon", "shahbad"
+  ],
+  "himachal pradesh": [
+    "shimla", "mandi", "solan", "nahan", "bilaspur", "kullu", "dharamshala", "palampur", "baddi", "nagrota", "una", "chamba", "pangi", "lahaul", "spiti", "kangra", "kinnaur", "hamirpur"
+  ],
+  "jharkhand": [
+    "ranchi", "jamshedpur", "dhanbad", "bokaro", "hazaribagh", "giridih", "deoghar", "chaibasa", "chatra", "dumka", "gumla", "pakur", "sahebganj", "simdega", "palamu", "latehar", "khunti", "littipara", "madhupur", "mihijam"
+  ],
+  "karnataka": [
+    "bengaluru", "mysore", "mangalore", "hubli", "davanagere", "belgaum", "gulbarga", "bellary", "bijapur", "shimoga", "tumkur", "mandya", "gadag", "raichur", "hassan", "dharmavaram", "chitradurga", "kolar", "udupi", "hospet", "bhatkal", "gokak", "madikeri", "ranibennur", "shahabad", "tarikere"
+  ],
+  "kerala": [
+    "thiruvananthapuram", "kochi", "kollam", "kottayam", "palakkad", "alappuzha", "thrissur", "kannur", "kozhikode", "malappuram", "wayanad", "kasaragod", "pathanamthitta", "idukki"
+  ],
+  "madhya pradesh": [
+    "bhopal", "indore", "jabalpur", "gwalior", "ujjain", "sagar", "dewas", "satna", "rewa", "morena", "hoshangabad", "bhind", "damoh", "khargone", "mandsaur", "neemuch", "shahdol", "chhindwara", "guna", "tikamgarh", "sehore", "vijaypur", "ashoknagar", "shajapur", "seoni"
+  ],
+  "maharashtra": [
+    "mumbai", "pune", "nagpur", "nashik", "aurangabad", "solapur", "thane", "jalgaon", "kolhapur", "amravati", "latur", "sangli", "nanded", "satara", "akola", "parbhani", "malegaon", "osmanabad", "nandurbar", "ahmednagar", "chandrapur", "dhule", "gondia", "hinganghat", "jalna", "khamgaon", "khopoli"
+  ],
+  "manipur": [
+    "imphal", "thoubal", "bishnupur", "churachandpur", "senapati", "tamenglong", "ukhrul", "kakching", "kangpokpi", "noney", "phungyar", "tengnoupal"
+  ],
+  "meghalaya": [
+    "shillong", "tura", "jowai", "nongstoin", "baghmara", "resubelpara", "williamnagar", "cherrapunji", "mairang", "mawkyrwat", "sohra", "nongpoh"
+  ],
+  "mizoram": [
+    "aizawl", "lunglei", "champhai", "kolasib", "serchhip", "mamit", "saiha", "dampa", "hachhek", "tawi", "thenzawl"
+  ],
+  "nagaland": [
+    "kohima", "dimapur", "mokokchung", "tuensang", "wokha", "zunheboto", "mon", "phek", "kiphire", "longleng"
+  ],
+  "odisha": [
+    "bhubaneswar", "cuttack", "rourkela", "sambalpur", "berhampur", "puri", "balasore", "bhadrak", "baripada", "kendrapara", "anugul", "bargarh", "baleshwar", "balangir", "boudh", "bhawanipatna", "bijapur", "bolangir", "dhenkanal", "jagatsinghpur", "jajpur", "jharsuguda", "kalahandi", "kapoorthala", "kendujhar", "koraput", "malkangiri", "mayurbhanj", "nabarangpur", "nayagarh", "nuapada", "phulbani", "rayagada", "subarnapur", "sundargarh", "tumudibandha"
+  ],
+  "punjab": [
+    "chandigarh", "ludhiana", "amritsar", "jalandhar", "patiala", "bathinda", "hoshiarpur", "moga", "mohali", "firozpur", "malerkotla", "mandi", "gobindgarh", "khanna", "fatehgarh sahib", "sangrur", "sunam", "dhuri", "zira", "fazilka", "kharar", "rajpura", "sirhind", "barnala", "jagraon", "kotkapura", "muktsar", "phagwara", "rampura", "tarn", "tarsikka", "dhariwal", "fatehgarh churian", "gurdaspur", "kapurthala", "rupnagar", "sas nagar", "sri muktsar sahib"
+  ],
+  "rajasthan": [
+    "jaipur", "jodhpur", "kota", "bikaner", "ajmer", "bhilwara", "alwar", "sikar", "sawai madhopur", "pali", "ganganagar", "bharatpur", "barmer", "tonk", "chittorgarh", "dungarpur", "sri ganganagar", "banswara", "dhaulpur", "dholpur", "karauli", "pratapgarh", "rajsamand", "udaipur", "hanumangarh", "jaisalmer", "jalore", "jhalawar", "jhunjhunu", "nagaur", "pratapgarh", "sirohi", "todalgarh"
+  ],
+  "sikkim": [
+    "gangtok", "namchi", "gyalshing", "mangan", "soreng", "rajgung", "rhenock"
+  ],
+  "tamil nadu": [
+    "chennai", "coimbatore", "madurai", "tiruchirappalli", "salem", "tirunelveli", "tiruppur", "vellore", "thoothukudi", "erode", "tiruvannamalai", "pollachi", "rajapalayam", "ramanathapuram", "kanchipuram", "nagercoil", "dindigul", "karur", "nagapattinam", "kovilpatti", "karaikudi", "vaniyambadi", "sivakasi", "tiruchengode", "tirupattur", "ranipet", "tindivanam", "udumalaipettai", "virudhachalam", "virudhunagar"
+  ],
+  "telangana": [
+    "hyderabad", "warangal", "nizamabad", "karimnagar", "ramagundam", "khammam", "mahbubnagar", "nalgonda", "suryapet", "miryalaguda", "siddipet", "adilabad", "sangareddy", "sircilla", "peddapalli", "bodhan", "mancherial", "kamareddy", "nirmal", "kotagiri"
+  ],
+  "tripura": [
+    "agartala", "udaipur", "dharmanagar", "pratapgarh", "kailasahar", "belonia", "ampinagar", "khowai", "phuldungri", "jagtial"
+  ],
+  "uttar pradesh": [
+    "lucknow", "kanpur", "agra", "varanasi", "meerut", "allahabad", "gorakhpur", "noida", "ghaziabad", "bareilly", "aligarh", "saharanpur", "mathura", "firozabad", "muzaffarnagar", "moradabad", "gwalior", "bhopal", "indore", "jabalpur", "raipur", "bilaspur", "durg", "raigarh", "jagdalpur", "rajnandgaon", "ambikapur", "dhamtari", "chirmiri", "bhatapara"
+  ],
+  "uttarakhand": [
+    "dehradun", "haridwar", "rishikesh", "udupi", "haldwani", "kathgodam", "kashipur", "rudrapur", "khatima", "sitarganj", "jaspur", "pauri", "chakrata", "chamoli", "dakpathar", "devprayag", "dhandhera", "dharasu", "dhumak", "dwarahat", "gairsain", "gangaikhera", "gangotri", "gauchar", "gaurikund", "guptkashi", "hardwar", "harsil", "jawalmukhi", "jhandi", "joshimath", "kalsi", "kanalich", "kanda", "karnaprayag", "kashipur", "khirshn", "kotdwar", "laksar", "lalkuan", "lansdowne", "lohardaga", "manali", "mandi", "manglaur", "mukteshwar", "nagla", "nainital", "nandaprayag", "narendranagar", "paddal", "padampur", "pauri", "phata", "pilkha", "pithoragarh", "pratapnagar", "prayag", "purola", "raipur", "raithal", "ranikhet", "roorkee", "rudraprayag", "uttarkashi", "vanspurnagar", "vijaypur", "vikasnagar", "virbhadra", "yamkeshwar", "yamunotri"
+  ],
+  "west bengal": [
+    "kolkata", "siliguri", "durgapur", "asansol", "malda", "raiganj", "kharagpur", "jalpaiguri", "cooch behar", "bankura", "darjeeling", "krishnanagar", "berhampore", "bally", "budge budge", "dhulian", "dankuni", "haldia", "kulti", "kamarhati", "medinipur", "nabadwip", "purulia", "shantipur", "suri", "tamluk", "alipurduar"
+  ],
+  "delhi": [
+    "new delhi", "delhi", "north delhi", "south delhi", "east delhi", "west delhi", "central delhi", "north west delhi", "south west delhi", "north east delhi", "shahdara", "new delhi", "palam", "rohini", "pitampura", "karol bagh", "connaught place", "defence colony", "greater kailash", "hauz khas", "karkardooma", "lajpat nagar", "mayur vihar", "narela", "noida", "pandav nagar", "paschim vihar", "rajouri garden", "saket", "vasant kunj", "vishwas nagar", "yamuna vihar"
+  ],
+  "puducherry": [
+    "puducherry", "karaikal", "mahe", "yanaon", "pondicherry", "oussudu", "kannigapuram", "thattanchavady", "mannadipet", "mudaliarpet"
+  ],
+  "andaman and nicobar islands": [
+    "port blair", "car nicobar", "coco island", "havelock island", "interview island", "jerry point", "katchal", "landfall island", "little andaman", "mahiya", "nancowry", "north and middle andaman", "north and south tillanchong", "north sentinel island", "phoenix bay", "ross island", "saddle peak", "south andaman", "swaraj dweep", "tillanchong", "viper island"
+  ],
+  "dadra and nagar haveli and daman and diu": [
+    "daman", "dadar", "nagar haveli", "silvassa", "dnh", "dnh and dd", "dnh dd", "dnh diu"
+  ],
+  "lakshadweep": [
+    "kavaratti", "agatti", "andrott", "bitra", "chethlath", "kadmath", "kalpeni", "kiltan", "minicoy", "muhassar", "pandarani", "thinnakara"
+  ],
+  "ladakh": [
+    "leh", "kargil", "drass", "padum", "zanskar", "nubra", "pangong", "tso", "tso kar", "tso moriri", "changthang", "nyoma", "urud"
+  ]
+}
