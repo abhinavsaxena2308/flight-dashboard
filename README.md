@@ -216,5 +216,4 @@ API requests from the frontend are logged by the backend. Check the backend cons
 5. Submit a pull request
 
 ## License
-
-[Specify your license here]
+MIT License
