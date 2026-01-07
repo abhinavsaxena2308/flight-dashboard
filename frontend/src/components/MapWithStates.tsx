@@ -7,7 +7,6 @@ import * as topojson from 'topojson-client';
 import indiaTopology from '../../topojson/india.json';
 import L from 'leaflet';
 
-// Fix for Leaflet icons
 const iconRetinaUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png';
 const iconUrl =
@@ -15,7 +14,6 @@ const iconUrl =
 const shadowUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png';
 
-// @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
