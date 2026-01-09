@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import StateHighlightMap from '@/components/StateHighlightMap';
 
 interface StateData {
   state: string;
@@ -96,6 +97,12 @@ const StateDashboardPage = () => {
             </button>
           </div>
           <p className="text-gray-600 mt-2">Detailed flight statistics for {stateData.state}</p>
+        </div>
+
+        {/* Map Visualization */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Location Map</h2>
+          <StateHighlightMap stateName={stateName as string} stateDisplayName={stateData.state} />
         </div>
 
         {/* Stats Overview */}
