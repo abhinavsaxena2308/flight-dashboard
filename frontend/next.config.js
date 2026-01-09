@@ -13,7 +13,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*', // Proxy API requests to backend
+        destination: 'http://localhost:8080/api/:path*' || 'https://flight-dashboard-2.onrender.com/', // Proxy API requests to backend Go server
       },
     ];
   },
