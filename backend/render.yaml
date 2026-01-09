@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: flight-dashboard-backend
+    env: go
+    buildCommand: |
+      go mod tidy
+      go build -o server main.go
+    startCommand: ./server
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8080
