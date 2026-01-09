@@ -207,6 +207,42 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
         <GeoJSON
           data={geoJsonData}
           style={style}
+          onEachFeature={(feature, layer) => {
+            //adding district names
+            const districtName = feature.properties?.district || 
+                              feature.properties?.dt_name || 
+                              feature.properties?.name || 
+                              'Unknown';
+            
+            layer.on({
+              mouseover: (e) => {
+                const layer = e.target;
+                layer.setStyle({
+                  weight: 4,
+                  color: '#1e40af', // Darker blue on hover
+                  fillOpacity: 0.9
+                });
+                
+                // Create and show tooltip
+                layer.bindTooltip(districtName, {
+                  permanent: false,
+                  direction: 'top',
+                  className: 'district-tooltip'
+                }).openTooltip();
+              },
+              mouseout: (e) => {
+                // Reset style on mouse out
+                e.target.setStyle({
+                  weight: 2,
+                  color: '#1d4ed8',
+                  fillOpacity: 0.7
+                });
+                
+                // Close tooltip
+                e.target.closeTooltip();
+              }
+            });
+          }}
         />
       </MapContainer>
     </div>
