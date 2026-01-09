@@ -1,6 +1,6 @@
 module flight-dashboard-backend
 
-go 1.25.2
+go 1.21
 
 require github.com/labstack/echo/v4 v4.15.0
 

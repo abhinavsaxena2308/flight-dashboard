@@ -47,6 +47,7 @@ interface TooltipState {
 
 interface MapWithStatesProps {
   setTooltip: React.Dispatch<React.SetStateAction<TooltipState>>;
+  onStateClick?: (stateName: string) => void;
 }
 
 const STATE_COLORS: { [key: string]: string } = {
@@ -105,7 +106,7 @@ const ISLAND_MARKERS = [
   { name: 'Lakshadweep', coords: [10.57, 72.64] as [number, number] },
 ];
 
-const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip }) => {
+const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick }) => {
   const geoJsonData = useMemo(() => {
     // @ts-ignore
     const topology = indiaTopology as any;
@@ -227,6 +228,26 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip }) => {
         }));
       },
 
+      click: (e: any) => {
+        const stateName =
+          feature.properties?.st_nm || feature.properties?.name || 'Unknown';
+        
+        // Convert state name to kebab-case for URL
+        const formattedStateName = stateName
+          .toLowerCase()
+          .replace(/&/g, 'and')
+          .replace(/\s+/g, '-')
+          .replace(/[^\w-]/g, '');
+        
+        // Call the click handler if provided
+        if (onStateClick) {
+          onStateClick(formattedStateName);
+        } else {
+          // Fallback to direct navigation
+          window.location.href = `/state/${formattedStateName}`;
+        }
+      },
+      
       mouseout: (e: any) => {
         e.target.setStyle({
           weight: 1,

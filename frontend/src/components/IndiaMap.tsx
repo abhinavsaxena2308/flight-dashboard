@@ -25,9 +25,13 @@ const IndiaMap: React.FC = () => {
     y: 0 
   });
 
+  const handleStateClick = (stateName: string) => {
+    window.location.href = `/state/${stateName}`;
+  };
+
   return (
     <div className="w-full h-full relative">
-      <MapComponent setTooltip={setTooltip} />
+      <MapComponent setTooltip={setTooltip} onStateClick={handleStateClick} />
       {/* Custom tooltip */}
       {tooltip.visible && (
         <div 
