@@ -13,11 +13,10 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*' || 'https://flight-dashboard-2.onrender.com/', // Proxy API requests to backend Go server
+        destination: 'https://flight-dashboard-2.onrender.com/api/:path*' , // Proxy API requests to backend Go server
       },
     ];
   },
-  /* For API routes, we need to handle proxying differently */
   env: {}, // This doesn't affect proxying
   // Enable trailing slash handling if needed
   trailingSlash: undefined,
