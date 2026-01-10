@@ -27,7 +27,7 @@ const StateDashboardPage = () => {
       
       try {
         setLoading(true);
-        // The stateName from params will be in kebab-case, which is what our API expects
+        // stateName from params will be in kebab-case format, which is what our API expects
         const response = await fetch(`/api/state/${stateName}`);
         
         if (!response.ok) {
@@ -99,13 +99,13 @@ const StateDashboardPage = () => {
           <p className="text-gray-600 mt-2">Detailed flight statistics for {stateData.state}</p>
         </div>
 
-        {/* Map Visualization */}
+        {/* Map view */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Location Map</h2>
           <StateHighlightMap stateName={stateName as string} stateDisplayName={stateData.state} />
         </div>
 
-        {/* Stats Overview */}
+        {/* statistics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold text-gray-700">Total Flights</h3>
@@ -128,7 +128,7 @@ const StateDashboardPage = () => {
           </div>
         </div>
 
-        {/* Airlines Section */}
+        {/* airlines section */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Airlines Serving {stateData.state}</h2>
           {stateData.airlines.length > 0 ? (
@@ -147,7 +147,7 @@ const StateDashboardPage = () => {
           )}
         </div>
 
-        {/* Additional Info */}
+        {/* addn info */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">State Flight Analysis</h2>
           <div className="space-y-4">

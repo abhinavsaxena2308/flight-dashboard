@@ -8,9 +8,6 @@ export default function Home() {
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-gray-800">India Flight Dashboard</h1>
-            <div className="text-sm text-gray-600">
-              Click on a state to view detailed flight statistics
-            </div>
           </div>
         </div>
         <div className="h-[70vh] bg-white rounded-lg shadow-md p-4">

@@ -32,7 +32,7 @@ const IndiaMap: React.FC = () => {
   return (
     <div className="w-full h-full relative">
       <MapComponent setTooltip={setTooltip} onStateClick={handleStateClick} />
-      {/* Custom tooltip */}
+      {/* custom tooltip */}
       {tooltip.visible && (
         <div 
           style={{

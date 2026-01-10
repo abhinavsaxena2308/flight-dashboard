@@ -3,13 +3,13 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 
-// Define the props interface
+// define the props interface
 interface StateHighlightMapProps {
   stateName: string;
   stateDisplayName?: string;
 }
 
-// Dynamically import the client-side map component with no SSR
+// dynamically importing the client-side map component with no SSR
 const ClientStateHighlightMap = dynamic(
   () => import('./ClientStateHighlightMap'),
   { 
@@ -18,7 +18,7 @@ const ClientStateHighlightMap = dynamic(
   }
 );
 
-// Wrapper component that handles the dynamic import
+// wrapper component that handles the dynamic import
 const StateHighlightMap: React.FC<StateHighlightMapProps> = (props) => {
   return <ClientStateHighlightMap {...props} />;
 };

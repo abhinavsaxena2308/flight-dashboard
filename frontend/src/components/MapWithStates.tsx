@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { MapContainer, TileLayer, GeoJSON, CircleMarker } from 'react-leaflet';
+import { MapContainer, GeoJSON, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import * as topojson from 'topojson-client';
 import indiaTopology from '../../topojson/india.json';
@@ -14,11 +14,10 @@ const iconUrl =
 const shadowUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png';
 
-// Fix for Leaflet marker icons
 try {
   delete (L as any).Icon.Default.prototype._getIconUrl;
 } catch (e) {
-  // Ignore if property doesn't exist
+  // errr....
 }
 
 L.Icon.Default.mergeOptions({
@@ -90,9 +89,9 @@ const STATE_COLORS: { [key: string]: string } = {
 };
 
 const getColor = (name: string) => {
-  if (!name) return '#CCCCCC'; // Default color for unknown states
+  if (!name) return '#CCCCCC'; // default color 
   
-  // Convert name to kebab-case to match keys
+  // convert name to kebab-case to match keys
   const normalizedName = name
     .toLowerCase()
     .replace(/&/g, 'and')
@@ -108,13 +107,9 @@ const ISLAND_MARKERS = [
 
 const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick }) => {
   const geoJsonData = useMemo(() => {
-    // @ts-ignore
     const topology = indiaTopology as any;
-    // Get the first object key (usually 'india' or 'states')
     const objectKey = Object.keys(topology.objects)[0];
     const geometries = topology.objects[objectKey].geometries;
-
-    // Group geometries by state name
     const groupedByState = geometries.reduce((acc: any, geom: any) => {
       const stateName = geom.properties.st_nm || geom.properties.name || 'Unknown';
       if (!acc[stateName]) {
@@ -123,8 +118,6 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
       acc[stateName].push(geom);
       return acc;
     }, {});
-
-    // Merge geometries for each state
     const features = Object.keys(groupedByState).map(stateName => {
       const stateGeometries = groupedByState[stateName];
       const mergedGeometry = topojson.merge(topology, stateGeometries);
@@ -133,7 +126,7 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
         geometry: mergedGeometry,
         properties: {
           st_nm: stateName,
-          name: stateName // Ensure compatibility with existing code
+          name: stateName 
         }
       };
     });
@@ -165,8 +158,7 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
 
         const stateName =
           feature.properties?.st_nm || feature.properties?.name || 'Unknown';
-        
-        // Set loading state
+    
         setTooltip({
           visible: true,
           content: '',
@@ -176,14 +168,11 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
         });
         
         try {
-          // Convert state name to kebab-case to match API expectations
           const formattedStateName = stateName
             .toLowerCase()
             .replace(/&/g, 'and')
             .replace(/\s+/g, '-')
             .replace(/[^\w-]/g, '');
-            
-          // Fetch state data from backend API (proxied through Next.js)
           const response = await fetch(`/api/state/${formattedStateName}`);
           
           if (response.ok) {
@@ -197,7 +186,6 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
               loading: false,
             });
           } else {
-            // If API call fails, show just the state name
             setTooltip({
               visible: true,
               content: stateName,
@@ -231,19 +219,16 @@ const MapWithStates: React.FC<MapWithStatesProps> = ({ setTooltip, onStateClick 
       click: (e: any) => {
         const stateName =
           feature.properties?.st_nm || feature.properties?.name || 'Unknown';
-        
-        // Convert state name to kebab-case for URL
+
         const formattedStateName = stateName
           .toLowerCase()
           .replace(/&/g, 'and')
           .replace(/\s+/g, '-')
           .replace(/[^\w-]/g, '');
         
-        // Call the click handler if provided
         if (onStateClick) {
           onStateClick(formattedStateName);
         } else {
-          // Fallback to direct navigation
           window.location.href = `/state/${formattedStateName}`;
         }
       },

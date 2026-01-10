@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import * as topojson from 'topojson-client';
 import L from 'leaflet';
 
-// Import all state topojson files
+// importing all state topojson files
 import andamanAndNicobarIslands from '../../topojson/states/andaman-and-nicobar-islands.json';
 import andhraPradesh from '../../topojson/states/andhra-pradesh.json';
 import arunachalPradesh from '../../topojson/states/arunachal-pradesh.json';
@@ -44,7 +44,7 @@ import uttarPradesh from '../../topojson/states/uttar-pradesh.json';
 import uttarakhand from '../../topojson/states/uttarakhand.json';
 import westBengal from '../../topojson/states/west-bengal.json';
 
-// Fix for Leaflet marker icons
+// leaflet marker icons
 const iconRetinaUrl =
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png';
 const iconUrl =
@@ -55,7 +55,7 @@ const shadowUrl =
 try {
   delete (L as any).Icon.Default.prototype._getIconUrl;
 } catch (e) {
-  // Ignore if property doesn't exist
+  // just ignore if property doesn't exist
 }
 
 L.Icon.Default.mergeOptions({
@@ -82,7 +82,7 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
       setError(null);
       
       try {
-        // Map state names to imported modules
+        // map state names to imported modules
         const stateMap: Record<string, any> = {
           'andaman-and-nicobar-islands': andamanAndNicobarIslands,
           'andhra-pradesh': andhraPradesh,
@@ -114,7 +114,7 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
           'punjab': punjab,
           'rajasthan': rajasthan,
           'sikkim': sikkim,
-          'tamil-nadu': tamilNadu, // Special mapping for inconsistent filename
+          'tamil-nadu': tamilNadu, // special mapping for inconsistent filename
           'telangana': telangana,
           'tripura': tripura,
           'uttar-pradesh': uttarPradesh,
@@ -122,7 +122,7 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
           'west-bengal': westBengal,
         };
         
-        // Get the state topojson from the map
+        // get the state topojson from the map
         const stateTopology = stateMap[stateName];
         
         if (!stateTopology) {
@@ -132,7 +132,7 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
           return;
         }
         
-        // Convert topology to GeoJSON
+        // convert topology to GeoJSON
         const objectKey = Object.keys(stateTopology.objects)[0];
         const featureCollection = topojson.feature(stateTopology, stateTopology.objects[objectKey]);
         
@@ -149,14 +149,13 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
   }, [stateName]);
 
   const style = (feature: any) => ({
-    fillColor: '#3b82f6', // Blue color for highlighted state
+    fillColor: '#3b82f6', // blue color for highlighted state
     weight: 2,
     opacity: 1,
-    color: '#1d4ed8', // Darker blue border
+    color: '#1d4ed8', 
     fillOpacity: 0.7,
   });
 
-  // Calculate bounds for the specific state to center the map
   const calculateBounds = () => {
     if (!geoJsonData) return null;
 
@@ -208,7 +207,7 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
           data={geoJsonData}
           style={style}
           onEachFeature={(feature, layer) => {
-            //adding district names
+            // adding district names
             const districtName = feature.properties?.district || 
                               feature.properties?.dt_name || 
                               feature.properties?.name || 
@@ -219,26 +218,21 @@ const ClientStateHighlightMap: React.FC<StateHighlightMapProps> = ({ stateName, 
                 const layer = e.target;
                 layer.setStyle({
                   weight: 4,
-                  color: '#1e40af', // Darker blue on hover
+                  color: '#1e40af', 
                   fillOpacity: 0.9
                 });
-                
-                // Create and show tooltip
                 layer.bindTooltip(districtName, {
                   permanent: false,
                   direction: 'top',
                   className: 'district-tooltip'
                 }).openTooltip();
               },
-              mouseout: (e) => {
-                // Reset style on mouse out
+              mouseout: (e) => { // reset style on mouse out
                 e.target.setStyle({
                   weight: 2,
                   color: '#1d4ed8',
                   fillOpacity: 0.7
                 });
-                
-                // Close tooltip
                 e.target.closeTooltip();
               }
             });

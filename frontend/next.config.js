@@ -1,13 +1,9 @@
 // next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['images.unsplash.com', 'via.placeholder.com'],
-  },
   experimental: {
     swcPlugins: [],
   },
-  // Use Babel instead of SWC
   swcMinify: false,
   async rewrites() {
     return [
@@ -17,11 +13,9 @@ const nextConfig = {
       },
     ];
   },
-  env: {}, // This doesn't affect proxying
-  // Enable trailing slash handling if needed
+  env: {}, 
   trailingSlash: undefined,
   webpack(config) {
-    // Further configure Webpack if needed
     return config;
   },
 }
