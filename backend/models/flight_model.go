@@ -1,6 +1,4 @@
 package models
-
-// Flight represents a flight record from the dataset
 type Flight struct {
 	Airline        string  `json:"airline"`
 	FlightDate     string  `json:"flight_date"`

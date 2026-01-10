@@ -8,41 +8,40 @@ import (
 	"sync"
 )
 
-// CityStateMapper handles city to state mapping
+// this mapper handles converting city names to state names needed for the flight data
 type CityStateMapper struct {
 	cityToStateMap map[string]string
 }
 
-// Global instance of the city state mapper
+// global instance so we can access the city-state mapping anywhere
 var cityStateMapper *CityStateMapper
 var mapperOnce sync.Once
 
-// GetCityStateMapper returns a singleton instance of CityStateMapper
+// returns singleton instance of the city state mapper ensures only one instance exists
 func GetCityStateMapper() *CityStateMapper {
 	mapperOnce.Do(func() {
 		cityStateMapper = &CityStateMapper{}
-		// Initialize the mapping
 		cityStateMapper.loadCityStateMap()
 	})
 	return cityStateMapper
 }
 
-// loadCityStateMap loads the city to state mapping from JSON file or initializes it
+// loads the city to state mapping from JSON file or initializes it if file doesn't exist
 func (csm *CityStateMapper) loadCityStateMap() {
-	// Try to load from JSON file first
+	// try to load from JSON file first
 	data, err := os.ReadFile("data/city_state_map.json")
 	if err != nil {
 		log.Println("Could not load city-state map from JSON file, using default mapping:", err)
-		// Use default mapping if file doesn't exist
+		// default in use when not exists
 		csm.cityToStateMap = createDefaultCityStateMap()
 	} else {
-		// Parse the JSON file
+		// parse the JSON file
 		var rawMap map[string][]string
 		if err := json.Unmarshal(data, &rawMap); err != nil {
 			log.Printf("Error parsing city-state map JSON: %v, using default mapping", err)
 			csm.cityToStateMap = createDefaultCityStateMap()
 		} else {
-			// Convert the raw map to a city-to-state mapping
+			// converting the raw map to a city-to-state mapping
 			csm.cityToStateMap = make(map[string]string)
 			for state, cities := range rawMap {
 				for _, city := range cities {
@@ -56,29 +55,21 @@ func (csm *CityStateMapper) loadCityStateMap() {
 	log.Printf("Loaded city-to-state mapping for %d cities", len(csm.cityToStateMap))
 }
 
-// GetStateForCity returns the state for a given city
+// returns the state for a given city used to map flight cities to states
 func (csm *CityStateMapper) GetStateForCity(city string) (string, bool) {
 	if city == "" {
 		return "", false
 	}
-
-	// Normalize the city name for lookup
 	normalizedCity := normalizeCityName(city)
-
-	// Direct lookup
 	if state, exists := csm.cityToStateMap[normalizedCity]; exists {
 		return state, true
 	}
-
-	// Try common aliases
 	if alias := getCityAlias(normalizedCity); alias != "" {
 		if state, exists := csm.cityToStateMap[alias]; exists {
 			return state, true
 		}
 	}
-
-	// If not found, return empty string and false
-	log.Printf("City not found in mapping: %s (normalized: %s)", city, normalizedCity)
+	//log.Printf("City not found in mapping: %s (normalized: %s)", city, normalizedCity)
 	return "", false
 }
 
@@ -86,7 +77,6 @@ func (csm *CityStateMapper) GetStateForCity(city string) (string, bool) {
 func normalizeCityName(city string) string {
 	normalized := strings.ToLower(strings.TrimSpace(city))
 
-	// Handle common variations
 	switch normalized {
 	case "bombay":
 		return "mumbai"

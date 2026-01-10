@@ -13,17 +13,17 @@ import (
 	"flight-dashboard-backend/models"
 )
 
-// FlightDataService handles loading and accessing flight data
+// this service handles loading and accessing the flight data from CSV
 type FlightDataService struct {
 	flights []models.Flight
 	mutex   sync.RWMutex
 }
 
-// Global instance of the flight data service
+// global instance so we can access the flight data anywhere in the app
 var flightDataService *FlightDataService
 var once sync.Once
 
-// GetFlightDataService returns a singleton instance of FlightDataService
+// returns a singleton instance of the flight data service - ensures we only have one instance
 func GetFlightDataService() *FlightDataService {
 	once.Do(func() {
 		flightDataService = &FlightDataService{}
@@ -31,7 +31,7 @@ func GetFlightDataService() *FlightDataService {
 	return flightDataService
 }
 
-// LoadFlightDataFromCSV loads flight data from a CSV file into memory
+// loads flight data from CSV file into memory - this is called when the app starts
 func (fds *FlightDataService) LoadFlightDataFromCSV(filePath string) error {
 	fds.mutex.Lock()
 	defer fds.mutex.Unlock()
@@ -66,13 +66,13 @@ func (fds *FlightDataService) LoadFlightDataFromCSV(filePath string) error {
 		}
 		if err != nil {
 			log.Printf("Error reading CSV record: %v", err)
-			continue // Skip invalid records
+			continue 
 		}
 
 		flight, err := parseFlightRecord(record, columnIndices)
 		if err != nil {
 			log.Printf("Skipping invalid record: %v, Record: %v", err, record)
-			continue // Skip invalid records
+			continue 
 		}
 
 		flights = append(flights, flight)
@@ -83,11 +83,11 @@ func (fds *FlightDataService) LoadFlightDataFromCSV(filePath string) error {
 	return nil
 }
 
-// parseFlightRecord converts a CSV record to a Flight struct
+// converts a CSV record to a Flight struct 
 func parseFlightRecord(record []string, indices map[string]int) (models.Flight, error) {
 	var flight models.Flight
 
-	// Helper function to safely get field value
+	// Helper function to get field value
 	getField := func(fieldName string) string {
 		if idx, exists := indices[fieldName]; exists && idx < len(record) {
 			return strings.TrimSpace(record[idx])
@@ -95,38 +95,38 @@ func parseFlightRecord(record []string, indices map[string]int) (models.Flight, 
 		return ""
 	}
 
-	// Map fields based on common CSV column names
+	// Map fields 
 	flight.Airline = getField("airline")
-	flight.FlightDate = getField("date_of_journey") // Common name in flight datasets
+	flight.FlightDate = getField("date_of_journey") 
 	if flight.FlightDate == "" {
-		flight.FlightDate = getField("flight_date") // Alternative name
+		flight.FlightDate = getField("flight_date") 
 	}
 	if flight.FlightDate == "" {
-		flight.FlightDate = getField("flight date") // CSV column name
+		flight.FlightDate = getField("flight date") 
 	}
 
 	flight.Source = getField("source")
 	if flight.Source == "" {
-		flight.Source = getField("from_city") // Alternative name
+		flight.Source = getField("from_city") 
 	}
 	if flight.Source == "" {
-		flight.Source = getField("from") // CSV column name
+		flight.Source = getField("from") 
 	}
 
 	flight.Destination = getField("destination")
 	if flight.Destination == "" {
-		flight.Destination = getField("to_city") // Alternative name
+		flight.Destination = getField("to_city") 
 	}
 	if flight.Destination == "" {
-		flight.Destination = getField("to") // CSV column name
+		flight.Destination = getField("to") 
 	}
 
 	flight.FlightClass = getField("class")
 	if flight.FlightClass == "" {
-		flight.FlightClass = getField("flight_class") // Alternative name
+		flight.FlightClass = getField("flight_class") 
 	}
 
-	// Parse duration (may be in hours or as a string)
+	// flight duration
 	durationStr := getField("duration")
 	if durationStr != "" {
 		flight.Duration = parseDuration(durationStr)
@@ -135,78 +135,75 @@ func parseFlightRecord(record []string, indices map[string]int) (models.Flight, 
 	// Parse price
 	priceStr := getField("price")
 	if priceStr != "" {
-		// Remove commas and other non-numeric characters (except decimal point)
 		cleanPriceStr := strings.ReplaceAll(priceStr, ",", "")
-		// Remove any non-numeric characters except decimal point
 		cleanPriceStr = cleanNonNumeric(cleanPriceStr)
 		price, err := strconv.ParseFloat(cleanPriceStr, 64)
 		if err != nil {
-			price = 0 // Default to 0 if parsing fails
+			price = 0 // default to 0 if parsing fails
 		}
 		flight.Price = price
 	}
 
 	flight.DepartureTime = getField("departure_time")
 	if flight.DepartureTime == "" {
-		flight.DepartureTime = getField("dep_time") // Alternative name
+		flight.DepartureTime = getField("dep_time") 
 	}
 	if flight.DepartureTime == "" {
-		flight.DepartureTime = getField("dep_time") // CSV column name (as 'from' field)
+		flight.DepartureTime = getField("dep_time") 
 	}
 
 	flight.ArrivalTime = getField("arrival_time")
 	if flight.ArrivalTime == "" {
-		flight.ArrivalTime = getField("arrival_time") // Alternative name
+		flight.ArrivalTime = getField("arrival_time") 
 	}
 	if flight.ArrivalTime == "" {
-		flight.ArrivalTime = getField("arr_time") // CSV column name
+		flight.ArrivalTime = getField("arr_time") 
 	}
 
-	// Parse stops
+	// parse stops.....
 	stopsStr := getField("stops")
 	if stopsStr != "" {
-		// Clean the stops string to remove non-numeric characters
 		cleanStopsStr := cleanNonNumeric(stopsStr)
 		stops, err := strconv.Atoi(cleanStopsStr)
 		if err != nil {
-			stops = 0 // Default to 0 if parsing fails
+			stops = 0 // default to 0 if parsing fails
 		}
 		flight.Stops = stops
 	}
 
 	flight.AdditionalInfo = getField("additional_info")
 	if flight.AdditionalInfo == "" {
-		flight.AdditionalInfo = getField("info") // Alternative name
+		flight.AdditionalInfo = getField("info") 
 	}
 
 	return flight, nil
 }
 
-// GetAllFlights returns all loaded flight records
+// returns all the loaded flight records
 func (fds *FlightDataService) GetAllFlights() []models.Flight {
 	fds.mutex.RLock()
 	defer fds.mutex.RUnlock()
 
-	// Return a copy to prevent external modification
+	// return a copy to prevent external modification of the original data
 	flightsCopy := make([]models.Flight, len(fds.flights))
 	copy(flightsCopy, fds.flights)
 	return flightsCopy
 }
 
-// GetFlightCount returns the total number of loaded flights
+// returns the total number of flights we've loaded - useful for stats
 func (fds *FlightDataService) GetFlightCount() int {
 	fds.mutex.RLock()
 	defer fds.mutex.RUnlock()
 	return len(fds.flights)
 }
 
-// GetStateForCity wraps the city state mapper to get state for a given city
+// gets the state for a given city using the city state mapper
 func (fds *FlightDataService) GetStateForCity(city string) (string, bool) {
 	mapper := GetCityStateMapper() // Use the new city state mapper
 	return mapper.GetStateForCity(city)
 }
 
-// GetFlightCountByState returns the number of flights for a specific state
+// counts flights for a specific state - checks both source and destination
 func (fds *FlightDataService) GetFlightCountByState(state string) int {
 	count := 0
 	state = strings.ToLower(state)
@@ -215,7 +212,7 @@ func (fds *FlightDataService) GetFlightCountByState(state string) int {
 	defer fds.mutex.RUnlock()
 
 	for _, flight := range fds.flights {
-		// Check if source or destination is in the given state
+		// checking if source or destination is in the given state
 		if sourceState, ok := fds.GetStateForCity(flight.Source); ok && strings.ToLower(sourceState) == state {
 			count++
 		} else if destState, ok := fds.GetStateForCity(flight.Destination); ok && strings.ToLower(destState) == state {
@@ -225,17 +222,14 @@ func (fds *FlightDataService) GetFlightCountByState(state string) int {
 	return count
 }
 
-// parseDuration parses duration strings like "2h 15m", "2h", "15m", "2.5h", etc.
+// parses duration strings like '2h 15m', '2h', '15m', '2.5h', etc. - handles different formats
 func parseDuration(durationStr string) float64 {
 	// Remove extra spaces
 	durationStr = strings.TrimSpace(durationStr)
-
-	// Handle special cases like "non-stop", "1-stop", etc.
 	if strings.Contains(strings.ToLower(durationStr), "non-stop") {
-		return 0 // Non-stop flights have no additional duration from stops
+		return 0 
 	}
 	if strings.Contains(strings.ToLower(durationStr), "-stop") {
-		// For values like "1-stop", "2-stop", etc., return 0 as duration
 		return 0
 	}
 
@@ -250,7 +244,7 @@ func parseDuration(durationStr string) float64 {
 				hoursStr := strings.ReplaceAll(part, "h", "")
 				hours, err := strconv.ParseFloat(strings.TrimSpace(hoursStr), 64)
 				if err == nil {
-					totalMinutes += hours * 60 // Convert to minutes for now
+					totalMinutes += hours * 60 
 				}
 			} else if strings.Contains(part, "m") {
 				minutesStr := strings.ReplaceAll(part, "m", "")
@@ -290,7 +284,7 @@ func parseDuration(durationStr string) float64 {
 	return value
 }
 
-// cleanNonNumeric removes any non-numeric characters except decimal point
+// removes non-numeric chars except decimal point - used for cleaning price/duration fields
 func cleanNonNumeric(s string) string {
 	var cleaned strings.Builder
 	for _, r := range s {

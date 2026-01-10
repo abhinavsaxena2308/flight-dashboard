@@ -7,27 +7,27 @@ import (
 )
 
 type StateAggregation struct {
-	StateName       string         `json:"state_name"`       // Name of the state
-	TotalFlights    int            `json:"total_flights"`    // Total number of flights associated with this state
-	IncomingFlights int            `json:"incoming_flights"` // Number of flights arriving to this state
-	OutgoingFlights int            `json:"outgoing_flights"` // Number of flights departing from this state
-	UniqueRoutes    int            `json:"unique_routes"`    // Number of unique routes in this state
-	Airlines        map[string]int `json:"airlines"`         // Map of airline names to their flight counts
-	RouteDetails    map[string]int `json:"route_details"`    // Map of route strings ("source->dest") to their counts
+	StateName       string         `json:"state_name"`       
+	TotalFlights    int            `json:"total_flights"`    
+	IncomingFlights int            `json:"incoming_flights"` 
+	OutgoingFlights int            `json:"outgoing_flights"` 
+	UniqueRoutes    int            `json:"unique_routes"`    
+	Airlines        map[string]int `json:"airlines"`         
+	RouteDetails    map[string]int `json:"route_details"`    
 }
 
 type StateAggregator struct {
-	aggregations map[string]*StateAggregation // Map of state names to their aggregations
-	mutex        sync.RWMutex                 // Mutex for thread-safe access to aggregations
-	dataService  *FlightDataService           // Reference to flight data service
-	mapper       *CityStateMapper             // Reference to city-to-state mapper
+	aggregations map[string]*StateAggregation 
+	mutex        sync.RWMutex                 
+	dataService  *FlightDataService           
+	mapper       *CityStateMapper             
 }
 
-// Global instance of the state aggregator
+// global instance of the state aggregator 
 var stateAggregator *StateAggregator
 var aggOnce sync.Once
 
-// GetStateAggregator returns a singleton instance of StateAggregator
+// returns singleton instance of the state aggregator 
 func GetStateAggregator() *StateAggregator {
 	aggOnce.Do(func() {
 		stateAggregator = &StateAggregator{
@@ -35,7 +35,6 @@ func GetStateAggregator() *StateAggregator {
 			dataService:  GetFlightDataService(),
 			mapper:       GetCityStateMapper(),
 		}
-		// Precompute aggregations at startup
 		stateAggregator.ComputeAggregations()
 	})
 	return stateAggregator
@@ -45,16 +44,15 @@ func (sa *StateAggregator) ComputeAggregations() {
 	sa.mutex.Lock()
 	defer sa.mutex.Unlock()
 
-	// Get all flights
+	// getting all flights
 	flights := sa.dataService.GetAllFlights()
 
-	// Initialize aggregation map
+	// initializing aggregation map
 	aggregations := make(map[string]*StateAggregation)
 
-	// Iterate through all flights to compute aggregations
+	// iterating through all flights to compute aggregations
 	for _, flight := range flights {
-		// Get states for source and destination
-		// Normalize city names to match the mapper's expected format
+		// getting states for source and destination
 		sourceState, sourceOk := sa.mapper.GetStateForCity(flight.Source)
 		destState, destOk := sa.mapper.GetStateForCity(flight.Destination)
 
@@ -86,14 +84,14 @@ func (sa *StateAggregator) ComputeAggregations() {
 			agg.TotalFlights++
 			agg.Airlines[flight.Airline]++
 
-			// Add route detail
+			// adding route detail
 			routeKey := strings.ToLower(flight.Source + "->" + flight.Destination)
 			agg.RouteDetails[routeKey]++
 		}
 
 		// Process destination state (incoming flights)
 		if destOk {
-			destState = strings.Title(strings.ToLower(destState)) // Capitalize properly
+			destState = strings.Title(strings.ToLower(destState)) 
 			if _, exists := aggregations[destState]; !exists {
 				aggregations[destState] = &StateAggregation{
 					StateName:       destState,
@@ -111,35 +109,35 @@ func (sa *StateAggregator) ComputeAggregations() {
 			agg.TotalFlights++
 			agg.Airlines[flight.Airline]++
 
-			// Add route detail (same route key for both source and dest aggregations)
+			// adding route detail 
 			routeKey := strings.ToLower(flight.Source + "->" + flight.Destination)
 			agg.RouteDetails[routeKey]++
 		}
 
 	}
 
-	// Calculate unique routes for each state
+	// calculating unique routes for each state
 	for _, agg := range aggregations {
 		agg.UniqueRoutes = len(agg.RouteDetails)
 	}
 
 	sa.aggregations = aggregations
 
-	log.Printf("Computed state-wise aggregations for %d states", len(aggregations))
+	//log.Printf("Computed state-wise aggregations for %d states", len(aggregations))
 
-	// Log some summary information
+	// logging some summary information
 	for state, agg := range aggregations {
 		log.Printf("State: %s - Total: %d, Incoming: %d, Outgoing: %d, Unique Routes: %d, Airlines: %d",
 			state, agg.TotalFlights, agg.IncomingFlights, agg.OutgoingFlights, agg.UniqueRoutes, len(agg.Airlines))
 	}
 }
 
-// Returns the aggregation and a boolean indicating if it exists
+// returns the aggregation and a bool to check if it exists
 func (sa *StateAggregator) GetAggregationForState(stateName string) (*StateAggregation, bool) {
 	sa.mutex.RLock()
 	defer sa.mutex.RUnlock()
 
-	// Normalize state name for lookup (handle different cases)
+	// normalize state name for lookup - handles different ways the name might be formatted
 	normalizedState := strings.Title(strings.ToLower(stateName))
 
 	agg, exists := sa.aggregations[normalizedState]
@@ -147,11 +145,11 @@ func (sa *StateAggregator) GetAggregationForState(stateName string) (*StateAggre
 		return agg, true
 	}
 
-	// Check if this is a valid Indian state name, even if it has no flight data
+	// check if this is a valid Indian state name, even if no flight data exists
 	allStates := sa.GetAllIndianStates()
 	for _, validState := range allStates {
 		if strings.EqualFold(validState, stateName) || strings.EqualFold(strings.Title(strings.ToLower(validState)), normalizedState) {
-			// Return a default aggregation with 0 values for valid states without data
+			// returns a default aggregation with 0 values for valid states without data
 			defaultAgg := &StateAggregation{
 				StateName:       validState,
 				TotalFlights:    0,
@@ -168,12 +166,12 @@ func (sa *StateAggregator) GetAggregationForState(stateName string) (*StateAggre
 	return nil, false
 }
 
-// GetAllAggregations returns all computed state aggregations
+// returns all computed state aggregations - gives the complete dataset
 func (sa *StateAggregator) GetAllAggregations() map[string]*StateAggregation {
 	sa.mutex.RLock()
 	defer sa.mutex.RUnlock()
 
-	// Return a copy to prevent external modification
+	// return a copy so external code can't modify our data
 	result := make(map[string]*StateAggregation)
 	for k, v := range sa.aggregations {
 		result[k] = v
@@ -181,13 +179,13 @@ func (sa *StateAggregator) GetAllAggregations() map[string]*StateAggregation {
 	return result
 }
 
-// RefreshAggregations recomputes all aggregations (useful when data changes)
+// refreshes all aggregations - useful when the flight data changes
 func (sa *StateAggregator) RefreshAggregations() {
 	log.Println("Refreshing state-wise aggregations...")
 	sa.ComputeAggregations()
 }
 
-// GetAllIndianStates returns a list of all Indian states
+// returns a list of all Indian states - needed for the state dropdown
 func (sa *StateAggregator) GetAllIndianStates() []string {
 	allStates := []string{
 		"Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -221,14 +219,11 @@ func (sa *StateAggregator) GetTopAirlinesForState(stateName string, limit int) m
 		return nil
 	}
 
-	// Return a copy of the airlines map
+	// returning a copy of the airlines map
 	result := make(map[string]int)
 	for k, v := range agg.Airlines {
 		result[k] = v
 	}
-
-	// In a real implementation, we would sort and limit the results
-	// For now, returning the full map
 	return result
 }
 
